@@ -3,6 +3,12 @@ import express from "express";
 const app = express();
 app.use(express.json());
 
+// eslint-disable-next-line no-unused-vars
+app.use((erro, req, res, next) => {
+    res.status(500).send({ message: "Erro interno do servidor" });
+    next(erro);
+});
+
 const livros = [
     {
         id: 1,
@@ -14,6 +20,17 @@ const livros = [
     },
 ];
 
+const autores = [
+    {
+        id: 1,
+        nome: "Julio",
+    },
+    {
+        id: 2,
+        nome: "Marcelo",
+    },
+]
+
 function buscaLivros(id) {
     return livros.findIndex(livro => livro.id === Number(id));
 }
@@ -24,6 +41,10 @@ app.get("/", (req, res) => {
 
 app.get("/livros", (req, res) => {
     res.status(200).json(livros);
+});
+
+app.get("/autores", (req, res) => {
+    res.status(200).json(autores);
 });
 
 app.get("/livros/:id", (req, res) => {
